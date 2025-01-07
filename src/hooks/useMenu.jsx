@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 const useMenu = () => {
@@ -5,12 +6,17 @@ const useMenu = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("menu.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setMenu(data);
-        setLoading(false);
-      });
+    // fetch("http://localhost:5000/menus")
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setMenu(data);
+    //     setLoading(false);
+    //   });
+
+    axios.get("http://localhost:5000/menus").then((res) => {
+      setMenu(res.data);
+      setLoading(false);
+    });
   }, []);
 
   const dessert = menu.filter((item) => item.category === "dessert");
