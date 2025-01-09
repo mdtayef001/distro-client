@@ -7,9 +7,9 @@ import {
 } from "react-simple-captcha";
 import useAuth from "../../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Login = () => {
-  const [captcha, setCaptcha] = useState("");
   const [required, setRequired] = useState(true);
   const navigate = useNavigate();
 
@@ -30,17 +30,26 @@ const Login = () => {
     loginUser(email, password)
       .then((result) => {
         const user = result.user;
+        Swal.fire({
+          title: `${user.displayName}, Login Success`,
+          icon: "success",
+        });
         navigate("/");
-        console.log(user);
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.message,
+        });
+      });
   };
 
-  const matchCaptcha = () => {
-    if (validateCaptcha(captcha)) {
-      setRequired(false);
+  const matchCaptcha = (e) => {
+    if (validateCaptcha(e.target.value)) {
+      return setRequired(false);
     } else {
-      setRequired(true);
+      return setRequired(true);
     }
   };
 
@@ -97,28 +106,28 @@ const Login = () => {
                 <input
                   type="text"
                   placeholder="Type the captcha"
-                  onChange={(e) => setCaptcha(e.target.value)}
+                  onBlur={matchCaptcha}
                   className="input input-bordered"
                   required
                 />
-                <button onClick={matchCaptcha} className="btn btn-sm">
-                  Validate
-                </button>
               </div>
-              <label className="label">
-                <p>
-                  Don&apos;t have account{" "}
-                  <Link className="text-red-400 text-lg" to={"/auth/signup"}>
-                    Create One
-                  </Link>
-                </p>
-              </label>
+
               <div className="form-control mt-6">
                 <button disabled={required} className="btn btn-primary">
                   Login
                 </button>
               </div>
             </form>
+
+            <p className="text-center mb-5">
+              Don&apos;t have account{" "}
+              <Link
+                className="text-red-400 text-lg link link-hover"
+                to={"/auth/signup"}
+              >
+                Create One
+              </Link>
+            </p>
           </div>
         </div>
       </div>
