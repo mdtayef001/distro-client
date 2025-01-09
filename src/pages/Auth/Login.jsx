@@ -5,10 +5,15 @@ import {
   LoadCanvasTemplate,
   validateCaptcha,
 } from "react-simple-captcha";
+import useAuth from "../../hooks/useAuth";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [captcha, setCaptcha] = useState("");
   const [required, setRequired] = useState(true);
+  const navigate = useNavigate();
+
+  const { loginUser } = useAuth();
 
   useEffect(() => {
     loadCaptchaEnginge(6);
@@ -18,7 +23,17 @@ const Login = () => {
     e.preventDefault();
     const initialData = new FormData(e.target).entries();
     const formData = Object.fromEntries(initialData);
-    console.log(formData);
+    const email = formData.email;
+    const password = formData.password;
+
+    // login user
+    loginUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        navigate("/");
+        console.log(user);
+      })
+      .catch((error) => console.log(error.message));
   };
 
   const matchCaptcha = () => {
@@ -90,6 +105,14 @@ const Login = () => {
                   Validate
                 </button>
               </div>
+              <label className="label">
+                <p>
+                  Don&apos;t have account{" "}
+                  <Link className="text-red-400 text-lg" to={"/auth/signup"}>
+                    Create One
+                  </Link>
+                </p>
+              </label>
               <div className="form-control mt-6">
                 <button disabled={required} className="btn btn-primary">
                   Login
