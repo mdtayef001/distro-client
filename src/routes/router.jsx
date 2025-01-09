@@ -1,9 +1,10 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Link, Navigate } from "react-router-dom";
 import Mainlayout from "../layout/Mainlayout";
 import Home from "../pages/Home/Home";
 import Menu from "../pages/Menu/Menu";
 import Order from "../pages/Order/Order";
 import Login from "../pages/Auth/Login";
+import AuthLayout from "../layout/AuthLayout";
 
 const router = createBrowserRouter([
   {
@@ -22,11 +23,32 @@ const router = createBrowserRouter([
         path: "/order/:category",
         element: <Order />,
       },
+    ],
+  },
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
       {
-        path: "/login",
+        path: "/auth",
+        element: <Navigate to={"/auth/login"} />,
+      },
+      {
+        path: "/auth/login",
         element: <Login />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: (
+      <div>
+        Error ....
+        <Link to={"/"} className="btn">
+          Home
+        </Link>
+      </div>
+    ),
   },
 ]);
 

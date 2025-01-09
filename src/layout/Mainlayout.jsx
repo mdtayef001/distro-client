@@ -1,14 +1,14 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 const Mainlayout = () => {
-  const location = useLocation();
-  const isLogin = location.pathname.includes("login");
+  // const location = useLocation();
+  // const isLogin = location.pathname.includes("login");
 
   return (
     <>
-      {isLogin || (
+      {/* {isLogin || (
         <header className="container mx-auto">
           <Navbar />
         </header>
@@ -20,7 +20,19 @@ const Mainlayout = () => {
         <footer className="container mx-auto">
           <Footer />
         </footer>
-      )}
+      )} */}
+
+      <header className="container mx-auto">
+        <Navbar />
+      </header>
+
+      <main className="container mx-auto">
+        <Outlet />
+      </main>
+
+      <footer className="container mx-auto">
+        <Footer />
+      </footer>
     </>
   );
 };
