@@ -9,13 +9,13 @@ import "@smastrom/react-rating/style.css";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Testimonial = () => {
   const [reviews, setReviews] = useState([]);
+  const axiosPublic = useAxiosPublic();
   useEffect(() => {
-    fetch("./review.json")
-      .then((res) => res.json())
-      .then((data) => setReviews(data));
+    axiosPublic.get("/reviews").then((res) => setReviews(res.data));
   }, []);
 
   return (
