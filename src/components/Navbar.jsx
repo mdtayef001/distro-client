@@ -83,7 +83,8 @@ const Navbar = () => {
         </div>
         <div className="navbar-end gap-2">
           <div className="dropdown dropdown-end">
-            <div
+            <Link
+              to={"/dashboard/cart"}
               tabIndex={0}
               role="button"
               className="btn btn-ghost btn-circle"
@@ -107,8 +108,8 @@ const Navbar = () => {
                   {cart.length}
                 </span>
               </div>
-            </div>
-            <div
+            </Link>
+            {/* <div
               tabIndex={0}
               className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
             >
@@ -121,7 +122,7 @@ const Navbar = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           {user?.displayName && (
             <p className="font-semibold">{user?.displayName}</p>
