@@ -1,34 +1,51 @@
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 
 const Signup = () => {
-  const { createUser, updataUser } = useAuth();
+  const { createUser, updataUser, user } = useAuth();
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
+  if (user) {
+    return <Navigate to={"/"} />;
+  }
+
   const handleSignup = (data) => {
-    console.log(data);
     const email = data.email;
     const password = data.password;
     const name = data.name;
+    const photoURL = data.photoURL;
     const userInfo = {
       displayName: name,
+      photoURL,
     };
     createUser(email, password)
       .then(() => {
-        updataUser(userInfo);
-        Swal.fire({
-          title: `Signup Success`,
-          icon: "success",
-        });
-        navigate("/");
+        updataUser(userInfo)
+          .then(() => {
+            reset();
+            Swal.fire({
+              title: `Signup Success`,
+              icon: "success",
+            });
+            navigate("/");
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: error.message,
+            });
+          });
       })
       .catch((error) => {
         Swal.fire({
@@ -64,6 +81,17 @@ const Signup = () => {
                   placeholder="Name"
                   className="input input-bordered"
                   {...register("name", { required: true })}
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">PhotoURL</span>
+                </label>
+                <input
+                  placeholder="https://"
+                  type="url"
+                  className="input input-bordered"
+                  {...register("photoURL", { required: true })}
                 />
               </div>
               <div className="form-control">

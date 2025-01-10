@@ -6,18 +6,20 @@ import {
   validateCaptcha,
 } from "react-simple-captcha";
 import useAuth from "../../hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Login = () => {
+  const { loginUser } = useAuth();
   const [required, setRequired] = useState(true);
   const navigate = useNavigate();
-
-  const { loginUser } = useAuth();
 
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
+
+  const location = useLocation();
+  const from = location?.state?.pathname || "/";
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -34,7 +36,7 @@ const Login = () => {
           title: `${user.displayName}, Login Success`,
           icon: "success",
         });
-        navigate("/");
+        navigate(from);
       })
       .catch((error) => {
         Swal.fire({
