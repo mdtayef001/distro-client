@@ -4,6 +4,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import SocialLogin from "../../components/SocialLogin";
 
 const Signup = () => {
   const { createUser, updataUser, user } = useAuth();
@@ -156,6 +157,12 @@ const Signup = () => {
                 <button className="btn btn-primary">Signup</button>
               </div>
             </form>
+
+            <div className="divider p-8">or</div>
+
+            <div>
+              <SocialLogin />
+            </div>
 
             <p className="text-center mb-5 ">
               Already have an account{" "}

@@ -8,6 +8,7 @@ import {
 import useAuth from "../../hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import SocialLogin from "../../components/SocialLogin";
 
 const Login = () => {
   const { loginUser } = useAuth();
@@ -120,6 +121,10 @@ const Login = () => {
                 </button>
               </div>
             </form>
+
+            <div>
+              <SocialLogin />
+            </div>
 
             <p className="text-center mb-5">
               Don&apos;t have account{" "}
