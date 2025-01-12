@@ -9,9 +9,12 @@ import useAuth from "../../hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import SocialLogin from "../../components/SocialLogin";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Login = () => {
   const { loginUser } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
   const [required, setRequired] = useState(true);
   const navigate = useNavigate();
 
@@ -33,11 +36,25 @@ const Login = () => {
     loginUser(email, password)
       .then((result) => {
         const user = result.user;
-        Swal.fire({
-          title: `${user.displayName}, Login Success`,
-          icon: "success",
+        const userInfo = {
+          email: user.email,
+          name: user.displayName,
+        };
+        axiosSecure.post("/user", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            Swal.fire({
+              title: `${user.displayName}, Login Success`,
+              icon: "success",
+            });
+            navigate(from);
+          } else {
+            Swal.fire({
+              title: `${user.displayName}, Login Success`,
+              icon: "success",
+            });
+            navigate(from);
+          }
         });
-        navigate(from);
       })
       .catch((error) => {
         Swal.fire({

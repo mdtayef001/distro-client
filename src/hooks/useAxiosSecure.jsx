@@ -1,14 +1,20 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "./useAuth";
+import Loading from "../components/Loading";
 
 const axiosInstance = axios.create({
   baseURL: "https://server-mu-two-63.vercel.app",
+  // baseURL: "http://localhost:5000",
 });
 
 const useAxiosSecure = () => {
   const navigate = useNavigate();
-  const { logOut } = useAuth();
+  const { logOut, loading } = useAuth();
+
+  if (loading) {
+    return <Loading />;
+  }
 
   // for all secure request
   axiosInstance.interceptors.request.use(
