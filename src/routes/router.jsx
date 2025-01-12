@@ -101,7 +101,7 @@ const router = createBrowserRouter([
           </AdminRouts>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/menus/${params.id}`),
+          fetch(`https://server-mu-two-63.vercel.app/menus/${params.id}`),
       },
     ],
   },
