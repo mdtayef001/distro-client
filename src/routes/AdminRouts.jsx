@@ -22,7 +22,7 @@ const AdminRouts = ({ children }) => {
 };
 
 AdminRouts.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.object,
 };
 
 export default AdminRouts;

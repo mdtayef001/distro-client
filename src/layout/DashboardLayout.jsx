@@ -13,13 +13,12 @@ import {
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import useAdmin from "../hooks/useAdmin";
-import AdminRouts from "../routes/AdminRouts";
 
 const DashboardLayout = () => {
   const [isAdmin] = useAdmin();
 
   const adminLinks = (
-    <AdminRouts>
+    <>
       <li>
         <NavLink to={"/dashboard/adminHome"}>
           <FaHome />
@@ -51,7 +50,7 @@ const DashboardLayout = () => {
           All Users
         </NavLink>
       </li>
-    </AdminRouts>
+    </>
   );
   const userLinks = (
     <>

@@ -1,23 +1,20 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import useAxiosPublic from "./useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
 
 const useMenu = () => {
-  const [menu, setMenu] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const axiosPublic = useAxiosPublic();
 
-  useEffect(() => {
-    // fetch("http://localhost:5000/menus")
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setMenu(data);
-    //     setLoading(false);
-    //   });
-
-    axios.get("http://localhost:5000/menus").then((res) => {
-      setMenu(res.data);
-      setLoading(false);
-    });
-  }, []);
+  const {
+    data: menu = [],
+    isPending: loading,
+    refetch,
+  } = useQuery({
+    queryKey: ["menus", "item"],
+    queryFn: async () => {
+      const res = await axiosPublic("/menus");
+      return res.data;
+    },
+  });
 
   const dessert = menu.filter((item) => item.category === "dessert");
   const pizza = menu.filter((item) => item.category === "pizza");
@@ -26,7 +23,17 @@ const useMenu = () => {
   const drinks = menu.filter((item) => item.category === "drinks");
   const offered = menu.filter((item) => item.category === "offered");
 
-  return { menu, loading, dessert, pizza, salad, soup, drinks, offered };
+  return {
+    menu,
+    loading,
+    refetch,
+    dessert,
+    pizza,
+    salad,
+    soup,
+    drinks,
+    offered,
+  };
 };
 
 export default useMenu;
