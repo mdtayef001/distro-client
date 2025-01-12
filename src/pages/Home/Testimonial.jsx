@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import SectionTitle from "../../components/SectionTitle";
 import { ImQuotesLeft } from "react-icons/im";
 // import Swiper core and required modules
@@ -10,13 +9,18 @@ import "@smastrom/react-rating/style.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
 
 const Testimonial = () => {
-  const [reviews, setReviews] = useState([]);
   const axiosPublic = useAxiosPublic();
-  useEffect(() => {
-    axiosPublic.get("/reviews").then((res) => setReviews(res.data));
-  }, []);
+
+  const { data: reviews = [] } = useQuery({
+    queryKey: ["reviews-data"],
+    queryFn: async () => {
+      const res = await axiosPublic.get("/reviews");
+      return res.data;
+    },
+  });
 
   return (
     <section className="mb-24">
