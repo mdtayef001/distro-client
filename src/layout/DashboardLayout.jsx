@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import {
   FaBook,
-  FaCalendar,
   FaHome,
   FaJediOrder,
   FaList,
@@ -80,9 +79,9 @@ const DashboardLayout = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to={"/dashboard/booking"}>
-          <FaCalendar />
-          My Booking
+        <NavLink to={"/dashboard/history"}>
+          <FaList />
+          My Orders
         </NavLink>
       </li>
     </>

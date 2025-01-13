@@ -4,8 +4,8 @@ import useAuth from "./useAuth";
 import Loading from "../components/Loading";
 
 const axiosInstance = axios.create({
-  baseURL: "https://server-mu-two-63.vercel.app",
-  // baseURL: "http://localhost:5000",
+  // baseURL: "https://server-mu-two-63.vercel.app",
+  baseURL: "http://localhost:5000",
 });
 
 const useAxiosSecure = () => {
