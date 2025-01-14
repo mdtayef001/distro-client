@@ -3,10 +3,12 @@ import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
 import { CgProfile } from "react-icons/cg";
 import useCarts from "../hooks/useCarts";
+import useAdmin from "../hooks/useAdmin";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [cart] = useCarts();
+  const [isAdmin] = useAdmin();
 
   const links = (
     <>
@@ -22,9 +24,17 @@ const Navbar = () => {
       <li>
         <NavLink to={"/contact-us"}>Contact Us</NavLink>
       </li>
-      <li>
-        <NavLink to={"/dashboard"}>Dashboard</NavLink>
-      </li>
+      {isAdmin && user ? (
+        <li>
+          <NavLink to={"/dashboard/adminHome"}>Dashboard</NavLink>
+        </li>
+      ) : user && !isAdmin ? (
+        <li>
+          <NavLink to={"/dashboard/userHome"}>Dashboard</NavLink>
+        </li>
+      ) : (
+        ""
+      )}
     </>
   );
 
